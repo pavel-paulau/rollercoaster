@@ -22,3 +22,12 @@ _testmain.go
 *.exe
 *.test
 *.prof
+
+.idea
+
+rollercoaster
+rollercoaster.db
+
+vendor/github.com/
+vendor/golang.org/
+vendor/gopkg.in/
