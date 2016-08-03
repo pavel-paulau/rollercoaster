@@ -78,6 +78,6 @@ function drawCharts() {
 
 			var chart = new google.visualization.LineChart(document.getElementById(div.id));
 			chart.draw(data, chartOptions);
-		})
+		});
 	});
 }
