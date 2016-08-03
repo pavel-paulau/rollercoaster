@@ -9,21 +9,15 @@ import (
 	"net/http/httptest"
 	"os"
 	"testing"
-	"time"
 )
 
 func generateBenchmark() io.Reader {
-	b, err := json.Marshal(benchmark{
-		Group:     "myGroup",
-		Metric:    "myMetric",
-		Unit:      "ms",
-		Value:     1.23,
-		Timestamp: time.Now().UnixNano(),
+	b, _ := json.Marshal(benchmark{
+		Group:  "myGroup",
+		Metric: "myMetric",
+		Unit:   "ms",
+		Value:  1.23,
 	})
-
-	if err != nil {
-		panic(err)
-	}
 
 	return bytes.NewReader(b)
 }
@@ -55,8 +49,48 @@ func TestPost(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	if resp.StatusCode != 200 {
+		t.Fatalf("Expected: 200, got: %d", resp.StatusCode)
+	}
+
 	if msg.Message != "ok" {
 		t.Errorf("Expected: ok, got: %s", msg.Message)
+	}
+}
+
+func TestBadPayload(t *testing.T) {
+	tmp, err := ioutil.TempFile("", "rollercoaster")
+
+	dbName = tmp.Name()
+	db = open()
+	initBucket()
+	defer db.Close()
+	defer os.Remove(tmp.Name())
+
+	ts := httptest.NewServer(httpEngine())
+	defer ts.Close()
+
+	resp, err := http.Post(ts.URL+"/api/v1/benchmarks", "application/json", nil)
+	defer resp.Body.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	msg := struct {
+		Message string `json:"message"`
+	}{}
+
+	err = json.NewDecoder(resp.Body).Decode(&msg)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if resp.StatusCode != 400 {
+		t.Fatalf("Expected: 400, got: %d", resp.StatusCode)
+	}
+
+	if msg.Message != "EOF" {
+		t.Errorf("Expected: EOF, got: %s", msg.Message)
 	}
 }
 
@@ -84,6 +118,10 @@ func TestGet(t *testing.T) {
 	err = json.NewDecoder(resp.Body).Decode(&benchmarks)
 	if err != nil {
 		t.Fatal(err)
+	}
+
+	if resp.StatusCode != 200 {
+		t.Fatalf("Expected: 200, got: %d", resp.StatusCode)
 	}
 
 	if len(benchmarks) != 1 {

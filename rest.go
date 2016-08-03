@@ -28,7 +28,8 @@ func httpEngine() *gin.Engine {
 		for value := range values {
 			var b benchmark
 			if err := json.Unmarshal(value, &b); err != nil {
-				panic(err)
+				c.JSON(500, gin.H{"message": err.Error()})
+				return
 			}
 			benchmarks = append(benchmarks, b)
 		}
@@ -40,12 +41,14 @@ func httpEngine() *gin.Engine {
 		var b benchmark
 		if err := c.BindJSON(&b); err != nil {
 			c.JSON(400, gin.H{"message": err.Error()})
+			return
 		}
 		b.Timestamp = time.Now().UnixNano()
 
 		value, err := json.Marshal(b)
 		if err != nil {
-			panic(err)
+			c.JSON(500, gin.H{"message": err.Error()})
+			return
 		}
 		put(value)
 
