@@ -14,8 +14,7 @@ import (
 func generateBenchmark() io.Reader {
 	b, _ := json.Marshal(benchmark{
 		Group:  "myGroup",
-		Metric: "myMetric",
-		Unit:   "ms",
+		Metric: "myMetric, ops/sec",
 		Value:  1.23,
 	})
 
