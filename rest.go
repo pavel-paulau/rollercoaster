@@ -14,6 +14,9 @@ func init() {
 func httpEngine() *gin.Engine {
 	router := gin.Default()
 
+	router.StaticFile("/", "./static/index.html")
+	router.Static("/static", "./static")
+
 	v1 := router.Group("/api/v1")
 
 	v1.GET("benchmarks", func(c *gin.Context) {

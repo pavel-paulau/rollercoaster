@@ -94,3 +94,31 @@ func TestGet(t *testing.T) {
 		t.Fatalf("Expected: %s, got: %s", "myGroup", benchmarks[1].Group)
 	}
 }
+
+func TestMainPage(t *testing.T) {
+	ts := httptest.NewServer(httpEngine())
+	defer ts.Close()
+
+	resp, err := http.Get(ts.URL)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if resp.StatusCode != 200 {
+		t.Fatalf("Expected: 200, got: %d", resp.StatusCode)
+	}
+}
+
+func TestStaticAssets(t *testing.T) {
+	ts := httptest.NewServer(httpEngine())
+	defer ts.Close()
+
+	resp, err := http.Get(ts.URL + "/static/main.js")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if resp.StatusCode != 200 {
+		t.Fatalf("Expected: 200, got: %d", resp.StatusCode)
+	}
+}
