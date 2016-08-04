@@ -42,7 +42,7 @@ The following status codes are used in API:
       "type": "string"
     },
     "value": {
-      "type": "integer"
+      "type": "number"
     }
   },
   "required": [
