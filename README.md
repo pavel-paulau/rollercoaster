@@ -5,9 +5,9 @@ Roller Coaster is a standalone web application for visualization of performance 
 
 It has the following features:
 
-* Built-in chart plotter (based on Google Chart)
-* Embedded data storage (Bolt)
-* Simple RESTful API for data manipulations
+* Built-in chart plotter (based on [Google Chart](https://developers.google.com/chart/))
+* Embedded data storage ([Bolt](https://github.com/boltdb/bolt))
+* Simple [RESTful API](https://github.com/gin-gonic/gin) for data manipulations
 * No external dependencies
 
 API
