@@ -2,6 +2,8 @@ Roller Coaster
 ==============
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/pavel-paulau/rollercoaster)](https://goreportcard.com/report/github.com/pavel-paulau/rollercoaster)
+[![Travis CI](https://travis-ci.org/pavel-paulau/rollercoaster.svg?branch=master)](https://travis-ci.org/pavel-paulau/rollercoaster)
+[![Coverage Status](https://coveralls.io/repos/github/pavel-paulau/rollercoaster/badge.svg?branch=master)](https://coveralls.io/github/pavel-paulau/rollercoaster?branch=master)
 
 Roller Coaster is a standalone web application for visualization of performance trends.
 
