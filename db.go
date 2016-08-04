@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	dbName     = "rollercoaster.db"
+	dbName     = "data/rollercoaster.db"
 	bucketName = "benchmarks"
 
 	db *bolt.DB
