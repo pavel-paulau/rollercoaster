@@ -1,6 +1,6 @@
 FROM alpine:3.4
 
-MAINTAINER Pavel Paulau <pavel@couchbase.com>
+MAINTAINER Pavel Paulau <pavel.paulau@gmail.com>
 
 EXPOSE 8080
 

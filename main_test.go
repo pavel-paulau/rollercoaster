@@ -48,8 +48,8 @@ func TestPost(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if resp.StatusCode != 200 {
-		t.Fatalf("Expected: 200, got: %d", resp.StatusCode)
+	if resp.StatusCode != 201 {
+		t.Fatalf("Expected: 201, got: %d", resp.StatusCode)
 	}
 
 	if msg.Message != "ok" {

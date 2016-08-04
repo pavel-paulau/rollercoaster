@@ -52,7 +52,7 @@ func httpEngine() *gin.Engine {
 		}
 		put(value)
 
-		c.JSON(200, gin.H{"message": "ok"})
+		c.JSON(201, gin.H{"message": "ok"})
 	})
 
 	return router
