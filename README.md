@@ -1,6 +1,8 @@
 Roller Coaster
 ==============
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/pavel-paulau/rollercoaster)](https://goreportcard.com/report/github.com/pavel-paulau/rollercoaster)
+
 Roller Coaster is a standalone web application for visualization of performance trends.
 
 It has the following features:
