@@ -67,3 +67,14 @@ Examples:
 [{"group":"ForestDB, Write-heavy workload","metric":"Read throughput, ops/sec","timestamp":1470268675328944907,"value":25000}]
 
 ```
+
+Docker image
+============
+
+A small Docker image (7.3MB) is available for this project:
+
+```
+> docker pull pavel/rollercoaster
+
+> docker run -t -d -p 8080:8080 pavel/rollercoaster
+```
