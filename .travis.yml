@@ -1,0 +1,10 @@
+sudo: false
+language: go
+go:
+  - 1.6
+install:
+  - go get github.com/kardianos/govendor
+  - go get github.com/mattn/goveralls
+  - $HOME/gopath/bin/govendor sync
+script:
+  - $HOME/gopath/bin/goveralls -v -repotoken $COVERALLS_TOKEN
