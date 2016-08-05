@@ -21,6 +21,17 @@ func generateBenchmark() io.Reader {
 	return bytes.NewReader(b)
 }
 
+func TestOpenDB(t *testing.T) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Error("open did not panic")
+		}
+	}()
+
+	dbName = "bad/name"
+	db = open()
+}
+
 func TestPost(t *testing.T) {
 	tmp, err := ioutil.TempFile("", "rollercoaster")
 
@@ -49,11 +60,11 @@ func TestPost(t *testing.T) {
 	}
 
 	if resp.StatusCode != 201 {
-		t.Fatalf("Expected: 201, got: %d", resp.StatusCode)
+		t.Fatalf("expected: 201, got: %d", resp.StatusCode)
 	}
 
 	if msg.Message != "ok" {
-		t.Errorf("Expected: ok, got: %s", msg.Message)
+		t.Errorf("expected: ok, got: %s", msg.Message)
 	}
 }
 
@@ -85,11 +96,39 @@ func TestBadPayload(t *testing.T) {
 	}
 
 	if resp.StatusCode != 400 {
-		t.Fatalf("Expected: 400, got: %d", resp.StatusCode)
+		t.Fatalf("expected: 400, got: %d", resp.StatusCode)
 	}
 
 	if msg.Message != "EOF" {
-		t.Errorf("Expected: EOF, got: %s", msg.Message)
+		t.Errorf("expected: EOF, got: %s", msg.Message)
+	}
+}
+
+func TestDBError(t *testing.T) {
+	ts := httptest.NewServer(httpEngine())
+	defer ts.Close()
+
+	resp, err := http.Post(ts.URL+"/api/v1/benchmarks", "application/json", generateBenchmark())
+	defer resp.Body.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	msg := struct {
+		Message string `json:"message"`
+	}{}
+
+	err = json.NewDecoder(resp.Body).Decode(&msg)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if resp.StatusCode != 500 {
+		t.Fatalf("expected: 400, got: %d", resp.StatusCode)
+	}
+
+	if msg.Message != "database not open" {
+		t.Errorf("expected: 'database not open', got: %s", msg.Message)
 	}
 }
 
@@ -120,15 +159,15 @@ func TestGet(t *testing.T) {
 	}
 
 	if resp.StatusCode != 200 {
-		t.Fatalf("Expected: 200, got: %d", resp.StatusCode)
+		t.Fatalf("expected: 200, got: %d", resp.StatusCode)
 	}
 
 	if len(benchmarks) != 1 {
-		t.Fatalf("Expected: 1 benchmark, got: %d", len(benchmarks))
+		t.Fatalf("expected: 1 benchmark, got: %d", len(benchmarks))
 	}
 
 	if benchmarks[0].Group != "myGroup" {
-		t.Fatalf("Expected: %s, got: %s", "myGroup", benchmarks[1].Group)
+		t.Fatalf("expected: %s, got: %s", "myGroup", benchmarks[1].Group)
 	}
 }
 
@@ -142,7 +181,7 @@ func TestMainPage(t *testing.T) {
 	}
 
 	if resp.StatusCode != 200 {
-		t.Fatalf("Expected: 200, got: %d", resp.StatusCode)
+		t.Fatalf("expected: 200, got: %d", resp.StatusCode)
 	}
 }
 
@@ -156,6 +195,6 @@ func TestStaticAssets(t *testing.T) {
 	}
 
 	if resp.StatusCode != 200 {
-		t.Fatalf("Expected: 200, got: %d", resp.StatusCode)
+		t.Fatalf("expected: 200, got: %d", resp.StatusCode)
 	}
 }

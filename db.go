@@ -39,8 +39,8 @@ func itob(v uint64) []byte {
 	return b
 }
 
-func put(value []byte) {
-	db.Update(func(tx *bolt.Tx) error {
+func put(value []byte) error {
+	return db.Update(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte(bucketName))
 
 		id, _ := b.NextSequence()
