@@ -43,13 +43,13 @@ func TestOpenDB(t *testing.T) {
 }
 
 func TestPost(t *testing.T) {
-	tmp, err := ioutil.TempFile("", "rollercoaster")
+	tmp, _ := ioutil.TempFile("", "rollercoaster")
+	defer os.Remove(tmp.Name())
 
 	dbName = tmp.Name()
 	db = open()
 	initBucket()
 	defer db.Close()
-	defer os.Remove(tmp.Name())
 
 	ts := httptest.NewServer(httpEngine())
 	defer ts.Close()
@@ -79,13 +79,13 @@ func TestPost(t *testing.T) {
 }
 
 func TestBadPayload(t *testing.T) {
-	tmp, err := ioutil.TempFile("", "rollercoaster")
+	tmp, _ := ioutil.TempFile("", "rollercoaster")
+	defer os.Remove(tmp.Name())
 
 	dbName = tmp.Name()
 	db = open()
 	initBucket()
 	defer db.Close()
-	defer os.Remove(tmp.Name())
 
 	ts := httptest.NewServer(httpEngine())
 	defer ts.Close()
@@ -143,7 +143,8 @@ func TestPostDBError(t *testing.T) {
 }
 
 func TestGet(t *testing.T) {
-	tmp, err := ioutil.TempFile("", "rollercoaster")
+	tmp, _ := ioutil.TempFile("", "rollercoaster")
+	defer os.Remove(tmp.Name())
 
 	dbName = tmp.Name()
 	db = open()
@@ -152,7 +153,6 @@ func TestGet(t *testing.T) {
 
 	ts := httptest.NewServer(httpEngine())
 	defer ts.Close()
-	defer os.Remove(tmp.Name())
 
 	http.Post(ts.URL+"/api/v1/benchmarks", "application/json", generateBenchmark())
 
@@ -182,7 +182,8 @@ func TestGet(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
-	tmp, err := ioutil.TempFile("", "rollercoaster")
+	tmp, _ := ioutil.TempFile("", "rollercoaster")
+	defer os.Remove(tmp.Name())
 
 	dbName = tmp.Name()
 	db = open()
@@ -191,7 +192,6 @@ func TestDelete(t *testing.T) {
 
 	ts := httptest.NewServer(httpEngine())
 	defer ts.Close()
-	defer os.Remove(tmp.Name())
 
 	http.Post(ts.URL+"/api/v1/benchmarks", "application/json", generateBenchmark())
 
@@ -221,7 +221,8 @@ func TestDelete(t *testing.T) {
 }
 
 func TestEmptyDelete(t *testing.T) {
-	tmp, err := ioutil.TempFile("", "rollercoaster")
+	tmp, _ := ioutil.TempFile("", "rollercoaster")
+	defer os.Remove(tmp.Name())
 
 	dbName = tmp.Name()
 	db = open()
@@ -230,7 +231,6 @@ func TestEmptyDelete(t *testing.T) {
 
 	ts := httptest.NewServer(httpEngine())
 	defer ts.Close()
-	defer os.Remove(tmp.Name())
 
 	http.Post(ts.URL+"/api/v1/benchmarks", "application/json", generateBenchmark())
 
@@ -260,7 +260,8 @@ func TestEmptyDelete(t *testing.T) {
 }
 
 func TestDeleteDBError(t *testing.T) {
-	tmp, err := ioutil.TempFile("", "rollercoaster")
+	tmp, _ := ioutil.TempFile("", "rollercoaster")
+	defer os.Remove(tmp.Name())
 
 	dbName = tmp.Name()
 	db = open()
