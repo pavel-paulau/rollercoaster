@@ -23,7 +23,7 @@ Currently, the application supports these endpoints:
 |-----------------------------------------|--------|-----------|----------------------------------------------------|
 | http://127.0.0.1:8080/api/v1/benchmarks | GET    | N/A       | Getting a list of all "benchmark" objects          |
 | http://127.0.0.1:8080/api/v1/benchmarks | POST   | benchmark | Adding a new "benchmark" object to the data bucket |
-| http://127.0.0.1:8080/api/v1/benchmarks | DELETE | id        | Delete an existing "benchmark" object by id        |
+| http://127.0.0.1:8080/api/v1/benchmarks | DELETE | id        | Deleting an existing "benchmark" object by id      |
 
 The following status codes are used in API:
 
