@@ -23,17 +23,18 @@ Currently, the application supports these endpoints:
 |-----------------------------------------|--------|-----------|----------------------------------------------------|
 | http://127.0.0.1:8080/api/v1/benchmarks | GET    | N/A       | Getting a list of all "benchmark" objects          |
 | http://127.0.0.1:8080/api/v1/benchmarks | POST   | benchmark | Adding a new "benchmark" object to the data bucket |
+| http://127.0.0.1:8080/api/v1/benchmarks | DELETE | id        | Delete an existing "benchmark" object by id        |
 
 The following status codes are used in API:
 
-| Methods   | Code | Description     |
-|-----------|------|-----------------|
-| GET       | 200  | Success         |
-| POST      | 201  | Benchmark added |
-| POST      | 400  | Bad payload     |
-| GET, POST | 500  | Internal error  |
+| Methods           | Code | Description     |
+|-------------------|------|-----------------|
+| GET, DELETE       | 200  | Success         |
+| POST              | 201  | Benchmark added |
+| DELETE, POST      | 400  | Bad payload     |
+| DELETE, GET, POST | 500  | Internal error  |
 
-"benchmark" objects can be described using this schema:
+"benchmark" object can be described using this schema:
 
 ```
 {
@@ -57,7 +58,23 @@ The following status codes are used in API:
 }
 ```
 
-Please notice that Unix timestamps are automatically added to the documents upon successful POST request.
+"id" object can be described using this schema:
+
+```
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "id""
+  ]
+}
+```
+
+Please notice that Unix timestamps and incremental IDs are automatically added to the documents upon successful POST request.
 
 Examples:
 
@@ -68,8 +85,12 @@ Examples:
 
 ```
 > curl -XGET http://127.0.0.1:8080/api/v1/benchmarks
-[{"group":"ForestDB, Write-heavy workload","metric":"Read throughput, ops/sec","timestamp":1470268675328944907,"value":25000}]
+[{"group":"ForestDB, Write-heavy workload","id":1,"metric":"Read throughput, ops/sec","timestamp":1470424035931557290,"value":25000}]
+```
 
+```
+> curl -XDELETE -d '{"id":1}' http://127.0.0.1:8080/api/v1/benchmarks
+{"message":"ok"}
 ```
 
 Docker image

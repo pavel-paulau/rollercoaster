@@ -14,6 +14,11 @@ var (
 	db *bolt.DB
 )
 
+type kvPair struct {
+	key   uint64
+	value []byte
+}
+
 func open() *bolt.DB {
 	db, err := bolt.Open(dbName, 0600, nil)
 	if err != nil {
@@ -48,16 +53,24 @@ func put(value []byte) error {
 	})
 }
 
-func iter(values chan []byte) {
+func iter(values chan kvPair) {
 	defer close(values)
 
 	db.View(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte(bucketName))
 
 		b.ForEach(func(key, value []byte) error {
-			values <- value
+			values <- kvPair{binary.BigEndian.Uint64(key), value}
 			return nil
 		})
 		return nil
+	})
+}
+
+func del(key uint64) error {
+	return db.Update(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte(bucketName))
+
+		return b.Delete(itob(key))
 	})
 }
