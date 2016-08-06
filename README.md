@@ -7,11 +7,11 @@ Roller Coaster
 
 Roller Coaster is a standalone web application for visualization of performance trends.
 
-It has the following features:
+It provides the following features:
 
 * Built-in chart plotter (based on [Google Chart](https://developers.google.com/chart/))
 * Embedded data storage ([Bolt](https://github.com/boltdb/bolt))
-* Simple [RESTful API](https://github.com/gin-gonic/gin) for data manipulations
+* Simple [RESTful API](https://github.com/gin-gonic/gin) for data manipulation
 * No external dependencies
 
 API
@@ -19,11 +19,11 @@ API
 
 Currently, the application supports these endpoints: 
 
-| Endpoint                                | Method | Payload   | Description                                        |
-|-----------------------------------------|--------|-----------|----------------------------------------------------|
-| http://127.0.0.1:8080/api/v1/benchmarks | GET    | N/A       | Getting a list of all "benchmark" objects          |
-| http://127.0.0.1:8080/api/v1/benchmarks | POST   | benchmark | Adding a new "benchmark" object to the data bucket |
-| http://127.0.0.1:8080/api/v1/benchmarks | DELETE | id        | Deleting an existing "benchmark" object by id      |
+| Endpoint                                | Method | Payload   | Description                                      |
+|-----------------------------------------|--------|-----------|--------------------------------------------------|
+| http://127.0.0.1:8080/api/v1/benchmarks | GET    | N/A       | Gets a list of all "benchmark" objects           |
+| http://127.0.0.1:8080/api/v1/benchmarks | POST   | benchmark | Adds a new "benchmark" object to the data bucket |
+| http://127.0.0.1:8080/api/v1/benchmarks | DELETE | id        | Deletes an existing "benchmark" object by id     |
 
 The following status codes are used in API:
 
