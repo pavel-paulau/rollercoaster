@@ -99,7 +99,7 @@ Docker image
 A small Docker image (7.3MB) is available for this project:
 
 ```
-> docker pull pavel/rollercoaster
+> docker pull perflab/rollercoaster
 
-> docker run -t -d -p 8080:8080 pavel/rollercoaster
+> docker run -t -d -p 8080:8080 perflab/rollercoaster
 ```

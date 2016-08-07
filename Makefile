@@ -9,7 +9,7 @@ test:
 
 docker:
 	CGO_ENABLED=0 go build -v -a --ldflags "-s" && upx -q6 rollercoaster
-	docker build --rm -t pavel/rollercoaster .
+	docker build --rm -t perflab/rollercoaster .
 
 clean:
 	rm -fr rollercoaster
