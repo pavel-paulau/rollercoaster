@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"io"
 	"io/ioutil"
+	"math/rand"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -15,7 +16,7 @@ func generateBenchmark() io.Reader {
 	b, _ := json.Marshal(benchmark{
 		Group:  "myGroup",
 		Metric: "myMetric, ops/sec",
-		Value:  1.23,
+		Value:  rand.Float64(),
 	})
 
 	return bytes.NewReader(b)
@@ -23,9 +24,21 @@ func generateBenchmark() io.Reader {
 
 func generateBenchmarkWithTimestamp() io.Reader {
 	b, _ := json.Marshal(benchmark{
-		Group:  "myGroup",
-		Metric: "myMetric, ops/sec",
-		Value:  1.23,
+		Group:     "myGroup",
+		Metric:    "myMetric, ops/sec",
+		Value:     rand.Float64(),
+		Timestamp: 123456,
+	})
+
+	return bytes.NewReader(b)
+}
+
+func generateBenchmarkWithTimestampAndID() io.Reader {
+	b, _ := json.Marshal(benchmark{
+		Group:     "myGroup",
+		ID:        1,
+		Metric:    "myMetric, ops/sec",
+		Value:     rand.Float64(),
 		Timestamp: 123456,
 	})
 
@@ -158,6 +171,58 @@ func TestCustomTimestamp(t *testing.T) {
 
 	if msg.Message != "ok" {
 		t.Errorf("expected: ok, got: %s", msg.Message)
+	}
+}
+
+func TestUpdate(t *testing.T) {
+	tmp, _ := ioutil.TempFile("", "rollercoaster")
+	defer os.Remove(tmp.Name())
+
+	dbName = tmp.Name()
+	db = open()
+	initBucket()
+	defer db.Close()
+
+	ts := httptest.NewServer(httpEngine())
+	defer ts.Close()
+
+	http.Post(ts.URL+"/api/v1/benchmarks", "application/json", generateBenchmarkWithTimestamp())
+	resp, err := http.Get(ts.URL + "/api/v1/benchmarks")
+	defer resp.Body.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	var beforeBenchmarks []benchmark
+	err = json.NewDecoder(resp.Body).Decode(&beforeBenchmarks)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	http.Post(ts.URL+"/api/v1/benchmarks", "application/json", generateBenchmarkWithTimestampAndID())
+	resp, err = http.Get(ts.URL + "/api/v1/benchmarks")
+	defer resp.Body.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	var afterBenchmarks []benchmark
+	err = json.NewDecoder(resp.Body).Decode(&afterBenchmarks)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(afterBenchmarks) != 1 {
+		t.Fatalf("expected 1 benchmark, got: %d", len(afterBenchmarks))
+	}
+
+	if beforeBenchmarks[0].Value == afterBenchmarks[0].Value {
+		t.Fatalf("expected different values, got %f", beforeBenchmarks[0].Value)
+	}
+
+	if beforeBenchmarks[0].Timestamp != afterBenchmarks[0].Timestamp {
+		t.Fatalf("expected the same timestamp, got %d and %d",
+			beforeBenchmarks[0].Timestamp, afterBenchmarks[0].Timestamp)
 	}
 }
 

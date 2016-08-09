@@ -50,7 +50,7 @@ func httpEngine() *gin.Engine {
 
 		value, _ := json.Marshal(b) // Ignoring errors because they are not really possible
 
-		if err := put(value); err != nil {
+		if err := put(b.ID, value); err != nil {
 			c.JSON(500, gin.H{"message": err.Error()})
 			return
 		}

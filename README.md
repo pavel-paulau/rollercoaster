@@ -44,6 +44,9 @@ The following status codes are used in API:
     "group": {
       "type": "string"
     },
+    "id": {
+      "type": "integer"
+    },
     "metric": {
       "type": "string"
     },
