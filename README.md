@@ -35,7 +35,7 @@ The following status codes are used in API:
 | DELETE, POST      | 400  | Bad payload     |
 | DELETE, GET, POST | 500  | Internal error  |
 
-"benchmark" object can be described using this schema:
+"benchmark" object can be described using this JSON schema:
 
 ```
 {
@@ -46,6 +46,9 @@ The following status codes are used in API:
     },
     "metric": {
       "type": "string"
+    },
+    "timestamp": {
+      "type": "integer"
     },
     "value": {
       "type": "number"

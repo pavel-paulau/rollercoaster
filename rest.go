@@ -44,7 +44,9 @@ func httpEngine() *gin.Engine {
 			c.JSON(400, gin.H{"message": err.Error()})
 			return
 		}
-		b.Timestamp = time.Now().UnixNano()
+		if b.Timestamp == 0 {
+			b.Timestamp = time.Now().UnixNano()
+		}
 
 		value, _ := json.Marshal(b) // Ignoring errors because they are not really possible
 

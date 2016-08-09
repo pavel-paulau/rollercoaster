@@ -21,6 +21,17 @@ func generateBenchmark() io.Reader {
 	return bytes.NewReader(b)
 }
 
+func generateBenchmarkWithTimestamp() io.Reader {
+	b, _ := json.Marshal(benchmark{
+		Group:  "myGroup",
+		Metric: "myMetric, ops/sec",
+		Value:  1.23,
+		Timestamp: 123456,
+	})
+
+	return bytes.NewReader(b)
+}
+
 func generateId() io.Reader {
 	i, _ := json.Marshal(struct {
 		ID uint64 `json:"id"`
@@ -111,6 +122,42 @@ func TestBadPayload(t *testing.T) {
 
 	if msg.Message != "EOF" {
 		t.Errorf("expected: EOF, got: %s", msg.Message)
+	}
+}
+
+func TestCustomTimestamp(t *testing.T) {
+	tmp, _ := ioutil.TempFile("", "rollercoaster")
+	defer os.Remove(tmp.Name())
+
+	dbName = tmp.Name()
+	db = open()
+	initBucket()
+	defer db.Close()
+
+	ts := httptest.NewServer(httpEngine())
+	defer ts.Close()
+
+	resp, err := http.Post(ts.URL+"/api/v1/benchmarks", "application/json", generateBenchmarkWithTimestamp())
+	defer resp.Body.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	msg := struct {
+		Message string `json:"message"`
+	}{}
+
+	err = json.NewDecoder(resp.Body).Decode(&msg)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if resp.StatusCode != 201 {
+		t.Fatalf("expected: 201, got: %d", resp.StatusCode)
+	}
+
+	if msg.Message != "ok" {
+		t.Errorf("expected: ok, got: %s", msg.Message)
 	}
 }
 
