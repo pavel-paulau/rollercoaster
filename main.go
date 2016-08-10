@@ -1,5 +1,9 @@
 package main
 
+import (
+	"fmt"
+)
+
 type benchmark struct {
 	Group     string  `json:"group" binding:"required"`
 	ID        uint64  `json:"id"`
@@ -8,10 +12,16 @@ type benchmark struct {
 	Value     float64 `json:"value" binding:"required"`
 }
 
+func greeting() {
+	fmt.Println("\n\t.:: Please navigate to http://127.0.0.1:8080/ ::.\n")
+}
+
 func main() {
 	db = open()
 	initBucket()
 	defer db.Close()
+
+	greeting()
 
 	httpEngine().Run()
 }

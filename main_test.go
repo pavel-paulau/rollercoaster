@@ -437,3 +437,7 @@ func TestStaticAssets(t *testing.T) {
 		t.Fatalf("expected: 200, got: %d", resp.StatusCode)
 	}
 }
+
+func TestGreeting(t *testing.T) {
+	greeting()
+}
