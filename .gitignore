@@ -28,6 +28,8 @@ _testmain.go
 rollercoaster
 rollercoaster.db
 
+build
+
 vendor/github.com/
 vendor/golang.org/
 vendor/gopkg.in/

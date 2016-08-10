@@ -12,4 +12,4 @@ docker:
 	docker build --rm -t perflab/rollercoaster .
 
 clean:
-	rm -fr rollercoaster
+	rm -fr rollercoaster build
