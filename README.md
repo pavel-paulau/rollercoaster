@@ -89,17 +89,29 @@ Examples:
 
 ```
 > curl -XPOST -d '{"group":"ForestDB, Write-heavy workload","metric":"Read throughput, ops/sec","value":25000}' http://127.0.0.1:8080/api/v1/benchmarks
-{"message":"ok"}
+{
+    "message": "ok"
+}
 ```
 
 ```
 > curl -XGET http://127.0.0.1:8080/api/v1/benchmarks
-[{"group":"ForestDB, Write-heavy workload","id":1,"metric":"Read throughput, ops/sec","timestamp":1470424035931557290,"value":25000}]
+[
+    {
+        "group": "ForestDB, Write-heavy workload",
+        "id": 1,
+        "metric": "Read throughput, ops/sec",
+        "timestamp": 1470851518959247351,
+        "value": 25000
+    }
+]
 ```
 
 ```
 > curl -XDELETE -d '{"id":1}' http://127.0.0.1:8080/api/v1/benchmarks
-{"message":"ok"}
+{
+    "message": "ok"
+}
 ```
 
 Docker image

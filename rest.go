@@ -28,20 +28,20 @@ func httpEngine() *gin.Engine {
 		for p := range kvPairs {
 			var b benchmark
 			if err := json.Unmarshal(p.value, &b); err != nil {
-				c.JSON(500, gin.H{"message": err.Error()})
+				c.IndentedJSON(500, gin.H{"message": err.Error()})
 				return
 			}
 			b.ID = p.key
 			benchmarks = append(benchmarks, b)
 		}
 
-		c.JSON(200, benchmarks)
+		c.IndentedJSON(200, benchmarks)
 	})
 
 	v1.POST("benchmarks", func(c *gin.Context) {
 		var b benchmark
 		if err := c.BindJSON(&b); err != nil {
-			c.JSON(400, gin.H{"message": err.Error()})
+			c.IndentedJSON(400, gin.H{"message": err.Error()})
 			return
 		}
 		if b.Timestamp == 0 {
@@ -51,10 +51,10 @@ func httpEngine() *gin.Engine {
 		value, _ := json.Marshal(b) // Ignoring errors because they are not really possible
 
 		if err := put(b.ID, value); err != nil {
-			c.JSON(500, gin.H{"message": err.Error()})
+			c.IndentedJSON(500, gin.H{"message": err.Error()})
 			return
 		}
-		c.JSON(201, gin.H{"message": "ok"})
+		c.IndentedJSON(201, gin.H{"message": "ok"})
 	})
 
 	v1.DELETE("benchmarks", func(c *gin.Context) {
@@ -62,15 +62,15 @@ func httpEngine() *gin.Engine {
 			ID uint64 `json:"id"`
 		}
 		if err := c.BindJSON(&payload); err != nil {
-			c.JSON(400, gin.H{"message": err.Error()})
+			c.IndentedJSON(400, gin.H{"message": err.Error()})
 			return
 		}
 
 		if err := del(payload.ID); err != nil {
-			c.JSON(500, gin.H{"message": err.Error()})
+			c.IndentedJSON(500, gin.H{"message": err.Error()})
 			return
 		}
-		c.JSON(200, gin.H{"message": "ok"})
+		c.IndentedJSON(200, gin.H{"message": "ok"})
 	})
 
 	return router
