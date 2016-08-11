@@ -124,3 +124,32 @@ A small Docker image (7.3MB) is available for this project:
 
 > docker run -t -d -p 8080:8080 perflab/rollercoaster
 ```
+
+Building from the source
+========================
+
+First, install Go vendor tool:
+
+```
+> go get -u github.com/kardianos/govendor
+```
+
+Pull third-party packages into vendor folder:
+
+```
+> govendor sync
+```
+
+Build the project:
+
+```
+> go build
+```
+
+How you should be able to run it from the command line:
+
+```
+> ./rollercoaster 
+
+	.:: Please navigate to http://127.0.0.1:8080/ ::.
+```
