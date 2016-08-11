@@ -24,6 +24,11 @@ var chartOptions = {
 	pointsVisible: true,
 	interpolateNulls: true,
 	pointShape: 'diamond',
+	explorer: {
+		actions: ['dragToZoom', 'rightClickToReset'],
+		axis: 'horizontal',
+		keepInBounds: true
+	},
 	height: 300
 };
 
