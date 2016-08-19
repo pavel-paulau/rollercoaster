@@ -1,6 +1,7 @@
 Roller Coaster
 ==============
 
+[![codebeat badge](https://codebeat.co/badges/1bb5e253-f9f3-4bda-a3d9-d469e64bff78)](https://codebeat.co/projects/github-com-pavel-paulau-rollercoaster)
 [![Go Report Card](https://goreportcard.com/badge/github.com/pavel-paulau/rollercoaster)](https://goreportcard.com/report/github.com/pavel-paulau/rollercoaster)
 [![Travis CI](https://travis-ci.org/pavel-paulau/rollercoaster.svg?branch=master)](https://travis-ci.org/pavel-paulau/rollercoaster)
 [![Coverage Status](https://coveralls.io/repos/github/pavel-paulau/rollercoaster/badge.svg?branch=master)](https://coveralls.io/github/pavel-paulau/rollercoaster?branch=master)
