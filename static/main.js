@@ -18,7 +18,11 @@ var chartOptions = {
 		}
 	},
 	legend: {
-		position: 'top'
+		maxLines: 2,
+		position: 'top',
+		textStyle: {
+			fontSize: 10
+		}
 	},
 	curveType: 'function',
 	pointsVisible: true,
