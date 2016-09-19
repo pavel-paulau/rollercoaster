@@ -17,7 +17,7 @@ It provides the following features:
 * Simple [RESTful API](https://github.com/gin-gonic/gin) for data manipulation
 * No external dependencies
 
-![Demo](http://i.imgur.com/NHs16Cw.png)
+![Demo](http://i.imgur.com/F5MUDwg.png)
 
 API
 ===
