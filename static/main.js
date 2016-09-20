@@ -46,7 +46,7 @@ function drawCharts() {
 			var value = response[i].value;
 
 			var timestamp = response[i].timestamp;
-			var date = new Date(timestamp / 10 ** 6);
+			var date = new Date(timestamp / Math.pow(10, 6));
 
 			if (charts[group] === undefined) {
 				charts[group] = {};
