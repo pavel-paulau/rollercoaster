@@ -148,7 +148,7 @@ Build the project:
 > go build
 ```
 
-How you should be able to run it from the command line:
+Now you should be able to run it from the command line:
 
 ```
 > ./rollercoaster 
